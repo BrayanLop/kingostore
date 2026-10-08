@@ -17,6 +17,8 @@ export interface VarianteProveedor {
   atributos: Record<string, string>;
   /** Costo para nosotros, en COP. */
   costo: number;
+  /** Precio de venta sugerido por el proveedor, si lo informa (referencia, no obligatorio). */
+  precioSugerido?: number;
   stock: number;
 }
 

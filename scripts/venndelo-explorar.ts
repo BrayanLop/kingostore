@@ -24,16 +24,16 @@ if (!refreshActual) {
 
 type Json = null | boolean | number | string | Json[] | { [k: string]: Json };
 
-function resumir(valor: Json, profundidad = 0): Json {
+function resumir(valor: Json, profundidad = 0, maxima = 3): Json {
   if (typeof valor === "string") return valor.length > 70 ? valor.slice(0, 70) + "…" : valor;
   if (Array.isArray(valor)) {
-    return profundidad > 3
+    return profundidad > maxima
       ? `[${valor.length} elementos]`
-      : [...valor.slice(0, 1).map((v) => resumir(v, profundidad + 1)), ...(valor.length > 1 ? [`… (${valor.length} en total)`] : [])];
+      : [...valor.slice(0, 1).map((v) => resumir(v, profundidad + 1, maxima)), ...(valor.length > 1 ? [`… (${valor.length} en total)`] : [])];
   }
   if (valor && typeof valor === "object") {
-    if (profundidad > 3) return "{…}";
-    return Object.fromEntries(Object.entries(valor).map(([k, v]) => [k, resumir(v, profundidad + 1)]));
+    if (profundidad > maxima) return "{…}";
+    return Object.fromEntries(Object.entries(valor).map(([k, v]) => [k, resumir(v, profundidad + 1, maxima)]));
   }
   return valor;
 }
@@ -83,7 +83,7 @@ async function obtenerAccessToken(): Promise<string> {
   return json.access_token;
 }
 
-async function leer(access: string, ruta: string) {
+async function leer(access: string, ruta: string, maxima = 3) {
   const res = await fetch(BASE + ruta, {
     method: "GET",
     headers: { Authorization: `Bearer ${access}` },
@@ -93,14 +93,14 @@ async function leer(access: string, ruta: string) {
   let json: Json;
   try { json = JSON.parse(texto); } catch { json = texto.slice(0, 300); }
   console.log(`\n=== GET ${ruta}  →  HTTP ${res.status}`);
-  console.log(JSON.stringify(resumir(json), null, 2));
+  console.log(JSON.stringify(resumir(json, 0, maxima), null, 2));
 }
 
 async function main() {
   const access = await obtenerAccessToken();
   await leer(access, "/v1/admin/check-auth");
   await leer(access, "/v1/admin/products?page_size=5&supply_model=ANY");
-  await leer(access, "/v1/admin/products?page_size=5&supply_model=DROPSHIP");
+  await leer(access, "/v1/admin/products?page_size=5&supply_model=DROPSHIP", 7);
   await leer(access, "/v1/admin/region/cities?page_size=3");
 }
 
