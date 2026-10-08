@@ -16,9 +16,12 @@ Sin configurar Supabase, la tienda usa los datos de demostración de `src/module
 1. Crea un proyecto en supabase.com.
 2. En **SQL Editor** ejecuta, en este orden:
    1. `supabase/migrations/0001_esquema_inicial.sql`
-   2. `supabase/seed.sql` (datos de demostración; se puede repetir sin duplicar)
+   2. `supabase/migrations/0002_permisos_servicio.sql` (permisos del servidor)
+   3. `supabase/seed.sql` (datos de demostración; se puede repetir sin duplicar)
 3. Copia `.env.example` a `.env.local` y completa los valores desde *Project Settings → API*.
 4. Reinicia `npm run dev`.
+
+En `NEXT_PUBLIC_SUPABASE_URL` va solo la URL base (`https://<proyecto>.supabase.co`), sin `/rest/v1/`.
 
 `.env.local` no se sube a GitHub. `SUPABASE_SERVICE_ROLE_KEY` da acceso total: solo se usa en el servidor (`src/lib/supabase/servidor.ts`).
 
