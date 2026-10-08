@@ -87,6 +87,7 @@ async function sincronizarProducto(
   producto: ProductoProveedor,
   resumen: ResumenSync,
 ): Promise<void> {
+  if (producto.motivoRechazo) throw new Error(producto.motivoRechazo);
   if (producto.variantes.length === 0) {
     throw new Error("el producto no trae variantes");
   }

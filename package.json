@@ -9,7 +9,8 @@
     "lint": "eslint",
     "test": "tsx --test \"src/**/*.test.ts\"",
     "importar:csv": "tsx --env-file=.env.local scripts/importar-csv.ts",
-    "dropi:explorar": "tsx --env-file=.env.local scripts/dropi-explorar.ts"
+    "dropi:explorar": "tsx --env-file=.env.local scripts/dropi-explorar.ts",
+    "dropi:sincronizar": "tsx --env-file=.env.local scripts/sincronizar-dropi.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.3",

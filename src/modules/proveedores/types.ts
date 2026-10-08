@@ -7,6 +7,8 @@ export interface ProductoProveedor {
   descripcion: string;
   imagenes: string[];
   variantes: VarianteProveedor[];
+  /** Si el adaptador no pudo interpretar el producto, aquí va el motivo (y no se importa). */
+  motivoRechazo?: string;
 }
 
 export interface VarianteProveedor {
