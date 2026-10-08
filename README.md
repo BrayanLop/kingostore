@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# KingoStore
 
-## Getting Started
+Tienda en línea (Next.js + TypeScript + Supabase). Arquitectura y plan: ver `../ARQUITECTURA.md` y `../PLAN_DE_TRABAJO.md`.
 
-First, run the development server:
+## Arrancar en local
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Sin configurar Supabase, la tienda usa los datos de demostración de `src/modules/catalogo/datos-demo.ts`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Conectar la base de datos (Supabase)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Crea un proyecto en supabase.com.
+2. En **SQL Editor** ejecuta, en este orden:
+   1. `supabase/migrations/0001_esquema_inicial.sql`
+   2. `supabase/seed.sql` (datos de demostración; se puede repetir sin duplicar)
+3. Copia `.env.example` a `.env.local` y completa los valores desde *Project Settings → API*.
+4. Reinicia `npm run dev`.
 
-## Learn More
+`.env.local` no se sube a GitHub. `SUPABASE_SERVICE_ROLE_KEY` da acceso total: solo se usa en el servidor (`src/lib/supabase/servidor.ts`).
 
-To learn more about Next.js, take a look at the following resources:
+## Estructura
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/app/            rutas (inicio, categoría, producto)
+src/components/     piezas de interfaz
+src/modules/        monolito modular: catalogo, precios, proveedores
+src/lib/supabase/   clientes de Supabase (público y de servicio)
+supabase/           migraciones y datos de demostración
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Cada módulo expone su interfaz en `index.ts`; el resto de la aplicación solo importa desde ahí.
 
-## Deploy on Vercel
+## Comprobaciones
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npx tsc --noEmit && npm run lint && npm run build
+```
