@@ -40,3 +40,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# refresh token pendiente de Venndelo (secreto)
+.venndelo-refresh.pendiente
+.env.local.tmp
