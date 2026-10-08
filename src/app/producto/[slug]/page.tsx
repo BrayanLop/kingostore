@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AgregarAlCarrito } from "@/components/AgregarAlCarrito";
 import {
   listarProductos,
   obtenerCategoria,
@@ -55,16 +56,15 @@ export default async function PaginaProducto(
         <div>
           <h1 className="font-serif text-3xl leading-tight">{producto.nombre}</h1>
           <p className="mt-4 font-serif text-3xl text-gold-light">
+            {producto.variantes.length > 1 ? "Desde " : ""}
             {formatearCop(producto.precio)}
           </p>
           <p className="mt-6 text-muted">{producto.descripcion}</p>
-          <button
-            type="button"
-            disabled
-            className="mt-8 w-full cursor-not-allowed rounded-lg bg-gold/40 px-6 py-3 font-medium text-background sm:w-auto"
-          >
-            Agregar al carrito (próximamente)
-          </button>
+          <AgregarAlCarrito
+            slug={producto.slug}
+            nombre={producto.nombre}
+            variantes={producto.variantes}
+          />
           {producto.demo && (
             <p className="mt-4 text-xs text-muted">
               Producto de demostración: precio y descripción de ejemplo.

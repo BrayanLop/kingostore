@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "tsx --test \"src/**/*.test.ts\"",
+    "importar:csv": "tsx --env-file=.env.local scripts/importar-csv.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.3",
@@ -23,6 +25,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.4.0",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }

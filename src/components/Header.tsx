@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { listarCategorias } from "@/modules/catalogo";
+import { CarritoLink } from "./CarritoLink";
 
 export async function Header() {
   const categorias = await listarCategorias();
@@ -31,6 +32,7 @@ export async function Header() {
             </Link>
           ))}
         </nav>
+        <CarritoLink />
       </div>
     </header>
   );

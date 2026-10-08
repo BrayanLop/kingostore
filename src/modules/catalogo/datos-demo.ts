@@ -29,7 +29,9 @@ export const categorias: Categoria[] = [
 ];
 
 // Productos de ejemplo para ver el diseño. Precios inventados.
-export const productos: Producto[] = [
+type ProductoBase = Omit<Producto, "variantes">;
+
+const productosBase: ProductoBase[] = [
   {
     slug: "bandas-elasticas-entrenamiento",
     nombre: "Set de bandas elásticas para entrenamiento",
@@ -104,3 +106,10 @@ export const productos: Producto[] = [
     demo: true,
   },
 ];
+
+// En modo demostración cada producto tiene una variante con id no válido para
+// pedidos: el checkout solo funciona con la base de datos conectada.
+export const productos: Producto[] = productosBase.map((p) => ({
+  ...p,
+  variantes: [{ id: `demo-${p.slug}`, atributos: {}, precio: p.precio, stock: 50 }],
+}));

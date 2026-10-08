@@ -11,7 +11,7 @@ import {
 } from "./repositorio-supabase";
 import type { Categoria, CategoriaSlug, Producto } from "./types";
 
-export type { Categoria, CategoriaSlug, Producto } from "./types";
+export type { Categoria, CategoriaSlug, Producto, Variante } from "./types";
 
 let avisoDemoMostrado = false;
 

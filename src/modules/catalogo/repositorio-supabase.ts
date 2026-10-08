@@ -1,5 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { Categoria, CategoriaSlug, Producto } from "./types";
+import type { Categoria, CategoriaSlug, Producto, Variante } from "./types";
 
 // Lecturas del catálogo público. Usa la clave anon: las políticas RLS ya limitan
 // el resultado a productos activos y a columnas sin costo ni proveedor.
@@ -16,21 +16,33 @@ interface FilaProducto {
   descripcion: string;
   demo: boolean;
   categorias: { slug: CategoriaSlug } | null;
-  variantes: { precio_venta: number }[];
+  variantes: {
+    id: string;
+    atributos: Record<string, string> | null;
+    precio_venta: number;
+    stock: number;
+  }[];
 }
 
 const COLUMNAS_PRODUCTO =
-  "slug, nombre, descripcion, demo, categorias!inner(slug), variantes(precio_venta)";
+  "slug, nombre, descripcion, demo, categorias!inner(slug), variantes(id, atributos, precio_venta, stock)";
 
 function aProducto(fila: FilaProducto): Producto | null {
   // Un producto sin variantes activas no se puede vender: no se muestra.
   if (!fila.categorias || fila.variantes.length === 0) return null;
+  const variantes: Variante[] = fila.variantes.map((v) => ({
+    id: v.id,
+    atributos: v.atributos ?? {},
+    precio: v.precio_venta,
+    stock: v.stock,
+  }));
   return {
     slug: fila.slug,
     nombre: fila.nombre,
     descripcion: fila.descripcion,
     categoria: fila.categorias.slug,
-    precio: Math.min(...fila.variantes.map((v) => v.precio_venta)),
+    precio: Math.min(...variantes.map((v) => v.precio)),
+    variantes,
     demo: fila.demo,
   };
 }

@@ -1,0 +1,6 @@
+id_externo,nombre,descripcion,imagenes,variante_id,atributos,costo,stock
+EJ-001,Camiseta deportiva,Tela liviana y transpirable,,EJ-001-S,Talla:S,18000,12
+EJ-001,Camiseta deportiva,Tela liviana y transpirable,,EJ-001-M,Talla:M,18000,20
+EJ-001,Camiseta deportiva,Tela liviana y transpirable,,EJ-001-L,Talla:L,18000,7
+EJ-002,Termo de acero 750 ml,Mantiene la temperatura por horas,,,,26500,15
+EJ-003,Organizador de escritorio,Cuatro compartimentos,,,,14000,0
